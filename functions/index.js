@@ -38,4 +38,8 @@ app.get("/film/:filmId", getFilmData);
 //ticket actions
 const { booking } = require("./handlers/ticket");
 app.post("/booking", auth, booking);
+//shows actions
+const { addShow, delShow } = require("./handlers/show");
+app.post("/addShow", addShow);
+app.delete("/deleteShow/:showId", delShow);
 exports.api = functions.region("asia-east2").https.onRequest(app);
