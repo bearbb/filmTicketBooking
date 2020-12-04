@@ -17,8 +17,25 @@ app.use(
   })
 );
 app.use(cookieParser());
-//get an film name
-const { getFilmData } = require("./handlers/film");
+const auth = require("./utils/authen");
+//User actions
+const { signup, login } = require("./user/user");
+app.post("/signup", signup);
+app.post("/login", login);
+
+//film actions
+const {
+  getFilmData,
+  addFilm,
+  deleteFilm,
+  updateFilm,
+} = require("./handlers/film");
+app.post("/addFilm", addFilm);
+app.post("/updateFilm/:filmId", updateFilm);
+app.delete("/deleteFilm/:filmId", deleteFilm);
 app.get("/film/:filmId", getFilmData);
 
+//ticket actions
+const { booking } = require("./handlers/ticket");
+app.post("/booking", auth, booking);
 exports.api = functions.region("asia-east2").https.onRequest(app);
