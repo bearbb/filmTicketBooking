@@ -93,3 +93,16 @@ exports.updateFilm = async (req, res) => {
 };
 
 //----------------------------SEPARATE----------------------------------------
+
+exports.getAllFilms = async (req, res) => {
+  try {
+    const getFilmsData = await db.collection("films").get();
+    let payload = [];
+    getFilmsData.docs.forEach((doc) => {
+      payload.push(doc.data());
+    });
+    return res.json(payload);
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+};
