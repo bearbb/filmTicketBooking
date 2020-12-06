@@ -31,12 +31,17 @@ app.get("/film/:filmId", getFilmData);
 app.get("/getAllFilms", getAllFilms);
 
 //ticket actions
-const { booking } = require("./handlers/ticket");
+const { booking, delTicket } = require("./handlers/ticket");
 app.post("/booking", auth, booking);
+app.delete("/delTicket", auth, delTicket);
 //shows actions
-const { addShow, delShow, updateShow } = require("./handlers/show");
+const {
+  addShow,
+  delShowByDateNCineId,
+  updateShow,
+} = require("./handlers/show");
 app.post("/addShow", adminAuth, addShow);
-app.delete("/deleteShow/:showId", adminAuth, delShow);
+app.delete("/deleteShow/", adminAuth, delShowByDateNCineId);
 app.post("/updateShow/:showId", adminAuth, updateShow);
 
 //Schedule actions
@@ -50,4 +55,5 @@ app.post("/addNewShowByDate", addNewShowByDate);
 //Seats
 const { getBookedSeat } = require("./handlers/seat");
 app.get("/getBookedSeats/:date/:cineId/:filmId", getBookedSeat);
+
 exports.api = functions.region("asia-east2").https.onRequest(app);
