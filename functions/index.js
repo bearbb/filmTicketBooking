@@ -9,12 +9,14 @@ app.use(
   })
 );
 app.use(cookieParser());
-const auth = require("./utils/authen");
+const auth = require("./utils/userAuth");
 const adminAuth = require("./utils/adminAuth");
 //User actions
-const { signup, login } = require("./user/user");
+const { signup, login, logout, isLoggedIn } = require("./user/user");
 app.post("/signup", signup);
 app.post("/login", login);
+app.post("logout", logout);
+app.get("isLoggedIn", isLoggedIn);
 
 //film actions
 const {
@@ -55,5 +57,17 @@ app.post("/addNewShowByDate", addNewShowByDate);
 //Seats
 const { getBookedSeat } = require("./handlers/seat");
 app.get("/getBookedSeats/:date/:cineId/:filmId", getBookedSeat);
+
+//Comment actions
+const { addComment, delComment, updateComment } = require("./handlers/comment");
+app.post("/addComment", auth, addComment);
+app.delete("/deleteComment", auth, delComment);
+app.post("/updateComment", auth, updateComment);
+
+const { addNews, delNews, updateNews, getAllNews } = require("./handlers/news");
+app.post("/addNews", adminAuth, addNews);
+app.delete("/deleteNews", adminAuth, delNews);
+app.post("/updateNews", adminAuth, updateNews);
+app.get("/getAllNews", adminAuth, getAllNews);
 
 exports.api = functions.region("asia-east2").https.onRequest(app);
