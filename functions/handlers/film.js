@@ -28,6 +28,13 @@ exports.addFilm = async (req, res) => {
     thumbnail: req.body.thumbnail,
     releaseDate: req.body.releaseDate,
     shortName: req.body.shortName,
+    director: req.body.director,
+    actors: req.body.actors,
+    type: req.body.type,
+    madeIn: req.body.madeIn,
+    duration: req.body.duration,
+    filmLabel: req.body.filmLabel,
+    commentCount: 0,
     //TODO: add showCount if needed
     rating: req.body.rating,
   };
@@ -99,7 +106,9 @@ exports.getAllFilms = async (req, res) => {
     const getFilmsData = await db.collection("films").get();
     let payload = [];
     getFilmsData.docs.forEach((doc) => {
-      payload.push(doc.data());
+      let filmData = doc.data();
+      filmData.filmId = doc.id;
+      payload.push(filmData);
     });
     return res.json(payload);
   } catch (error) {

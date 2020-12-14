@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const app = require("express")();
 app.use(
   cors({
-    origin: "https://localhost:3000",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
@@ -12,11 +12,12 @@ app.use(cookieParser());
 const auth = require("./utils/userAuth");
 const adminAuth = require("./utils/adminAuth");
 //User actions
-const { signup, login, logout, isLoggedIn } = require("./user/user");
+const { signup, login, logout, isLoggedIn, getUser } = require("./user/user");
 app.post("/signup", signup);
 app.post("/login", login);
 app.post("logout", logout);
-app.get("isLoggedIn", isLoggedIn);
+app.get("/isLoggedIn", isLoggedIn);
+app.get("/getUser", auth, getUser);
 
 //film actions
 const {
@@ -59,15 +60,21 @@ const { getBookedSeat } = require("./handlers/seat");
 app.get("/getBookedSeats/:date/:cineId/:filmId", getBookedSeat);
 
 //Comment actions
-const { addComment, delComment, updateComment } = require("./handlers/comment");
+const {
+  addComment,
+  delComment,
+  updateComment,
+  getCommentsByFilmId,
+} = require("./handlers/comment");
 app.post("/addComment", auth, addComment);
 app.delete("/deleteComment", auth, delComment);
 app.post("/updateComment", auth, updateComment);
+app.get("/getComments", getCommentsByFilmId);
 
 const { addNews, delNews, updateNews, getAllNews } = require("./handlers/news");
 app.post("/addNews", adminAuth, addNews);
 app.delete("/deleteNews", adminAuth, delNews);
 app.post("/updateNews", adminAuth, updateNews);
-app.get("/getAllNews", adminAuth, getAllNews);
+app.get("/getAllNews", getAllNews);
 
 exports.api = functions.region("asia-east2").https.onRequest(app);

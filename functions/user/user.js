@@ -1,15 +1,15 @@
 const { validateLoginData, validateSignupData } = require("../utils/validator");
 const authCookieOptions = {
   maxAge: 60000 * 60,
-  httpOnly: true,
-  secure: true,
+  // httpOnly: true,
+  // secure: true,
   sameSite: "None",
   domain: "asia-east2-filmticketbooking-cae81.cloudfunctions.net",
   path: "/",
 };
 const cookieOptionsToRemove = {
-  httpOnly: true,
-  secure: true,
+  // httpOnly: true,
+  // secure: true,
   sameSite: "None",
   domain: "asia-east2-filmticketbooking-cae81.cloudfunctions.net",
   path: "/",
@@ -149,7 +149,7 @@ exports.logout = async (req, res) => {
 
 // ---------------------SEPARATE------------------------
 
-exports.user = async (req, res) => {
+exports.getUser = async (req, res) => {
   //check if that user exists
   let dataDoc = db.doc(`/users/${req.user.userName}`);
   const userData = await dataDoc.get();
