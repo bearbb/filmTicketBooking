@@ -15,7 +15,7 @@ const adminAuth = require("./utils/adminAuth");
 const { signup, login, logout, isLoggedIn, getUser } = require("./user/user");
 app.post("/signup", signup);
 app.post("/login", login);
-app.post("logout", logout);
+app.post("/logout", logout);
 app.get("/isLoggedIn", isLoggedIn);
 app.get("/getUser", auth, getUser);
 
@@ -69,12 +69,19 @@ const {
 app.post("/addComment", auth, addComment);
 app.delete("/deleteComment", auth, delComment);
 app.post("/updateComment", auth, updateComment);
-app.get("/getComments", getCommentsByFilmId);
+app.get("/getComments/:filmId", getCommentsByFilmId);
 
-const { addNews, delNews, updateNews, getAllNews } = require("./handlers/news");
+const {
+  addNews,
+  delNews,
+  updateNews,
+  getAllNews,
+  getNewsById,
+} = require("./handlers/news");
 app.post("/addNews", adminAuth, addNews);
 app.delete("/deleteNews", adminAuth, delNews);
 app.post("/updateNews", adminAuth, updateNews);
 app.get("/getAllNews", getAllNews);
+app.get("/getNewsById/:newsId", getNewsById);
 
 exports.api = functions.region("asia-east2").https.onRequest(app);

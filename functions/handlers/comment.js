@@ -80,7 +80,7 @@ exports.updateComment = async (req, res) => {
 
 //-----------------------------SEPARATE---------------------------------
 exports.getCommentsByFilmId = async (req, res) => {
-  const filmId = req.body.filmId;
+  const filmId = req.params.filmId;
   const filmRef = db.doc(`/films/${filmId}`);
   try {
     const filmDoc = await filmRef.get();

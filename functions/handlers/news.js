@@ -65,11 +65,29 @@ exports.getAllNews = async (req, res) => {
     const allNewsRef = db.collection("news");
     const allNewsDoc = await allNewsRef.get();
     allNewsDoc.forEach((doc) => {
-      returnedData.push(doc.data());
+      let newsData = doc.data();
+      newsData.newsId = doc.id;
+      returnedData.push(newsData);
     });
     return res.json(returnedData);
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: err });
+  }
+};
+
+exports.getNewsById = async (req, res) => {
+  const newsId = req.params.newsId;
+  const newsRef = db.doc(`/news/${newsId}`);
+  try {
+    const newsDoc = await newsRef.get();
+    if (newsDoc.exists) {
+      return res.json(newsDoc.data());
+    } else {
+      return res.status(400).json({ news: "not existed" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json(err);
   }
 };
