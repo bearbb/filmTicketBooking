@@ -4,6 +4,7 @@ exports.addShow = async (req, res) => {
   //TODO: when add new show, loop through all show time and add it to shows collection
   const showData = {
     filmId: req.body.filmId,
+    filmName: req.body.filmName,
     showTime: req.body.showTime,
     cineId: req.body.cineId,
     ticketPrice: req.body.ticketPrice,
