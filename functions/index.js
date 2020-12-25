@@ -87,4 +87,8 @@ app.post("/updateNews", adminAuth, updateNews);
 app.get("/getAllNews", getAllNews);
 app.get("/getNewsById/:newsId", getNewsById);
 
+const { getAllCarousels, addCarousel } = require("./handlers/carousel");
+app.get("/getAllCarousels", getAllCarousels);
+app.post("/addCarousel", adminAuth, addCarousel);
+
 exports.api = functions.region("asia-east2").https.onRequest(app);
