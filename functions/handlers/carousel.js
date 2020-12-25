@@ -38,3 +38,22 @@ exports.addCarousel = async (req, res) => {
     return res.status(500).json({ err });
   }
 };
+
+//----------------------------SEPARATE----------------------------------------
+
+exports.delCarousel = async (req, res) => {
+  const carouselId = req.body.carouselId;
+  try {
+    const carouselDoc = await db.doc(`/carousels/${carouselId}`).get();
+    //check if exist
+    if (carouselDoc.exists) {
+      const delCarouselRes = await db.doc(`/carousels/${carouselId}`).delete();
+      return res.json({ carousel: "deleted successfully" });
+    } else {
+      return res.status(400).json({ carousel: "not existed" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ err });
+  }
+};
