@@ -68,3 +68,23 @@ exports.delTicket = async (req, res) => {
     return res.status(500).json({ error });
   }
 };
+
+//----------------------------------------------SEPARATE---------------------------------------------
+
+exports.getTicketData = async (req, res) => {
+  const userName = req.user.userName;
+  try {
+    const ticketDoc = await db
+      .collection("tickets")
+      .where("userName", "==", userName)
+      .get();
+    let rd = [];
+    ticketDoc.docs.forEach((doc) => {
+      rd.push(doc.data());
+    });
+    return res.json(rd);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json(err);
+  }
+};

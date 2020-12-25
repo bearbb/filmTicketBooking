@@ -26,17 +26,20 @@ const {
   deleteFilm,
   updateFilm,
   getAllFilms,
+  getUpcomingFilm,
 } = require("./handlers/film");
 app.post("/addFilm", addFilm);
 app.post("/updateFilm/:filmId", updateFilm);
 app.delete("/deleteFilm/:filmId", deleteFilm);
 app.get("/film/:filmId", getFilmData);
 app.get("/getAllFilms", getAllFilms);
+app.get("/getUpcomingFilm", getUpcomingFilm);
 
 //ticket actions
-const { booking, delTicket } = require("./handlers/ticket");
+const { booking, delTicket, getTicketData } = require("./handlers/ticket");
 app.post("/booking", auth, booking);
 app.delete("/delTicket", auth, delTicket);
+app.get("/getTicketData", auth, getTicketData);
 //shows actions
 const {
   addShow,

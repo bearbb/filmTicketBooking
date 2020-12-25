@@ -115,3 +115,23 @@ exports.getAllFilms = async (req, res) => {
     return res.status(500).json({ error });
   }
 };
+
+//-------------------------------SEPARATE-----------------------------------------------
+
+exports.getUpcomingFilm = async (req, res) => {
+  const currentDate = new Date();
+  try {
+    const allFilmsDoc = await db.collection("films").get();
+    let data = [];
+    allFilmsDoc.docs.forEach((doc) => {
+      const releaseDate = new Date(doc.data().releaseDate);
+      if (releaseDate >= currentDate) {
+        data.push(doc.data());
+      }
+    });
+    return res.json(data);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ err });
+  }
+};
